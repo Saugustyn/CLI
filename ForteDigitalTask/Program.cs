@@ -20,8 +20,11 @@ class Program
 {
     static void Main(string[] args)
     {
-        InternManager manager = new InternManager(new InternParser(new WebClient()));
-        InternConsoleManager consoleManager = new InternConsoleManager(manager);
-        consoleManager.Start();
+        while (true)
+        {
+            InternManager manager = new InternManager(new InternParser(new WebClient()));
+            InternConsoleManager consoleManager = new InternConsoleManager(manager);
+            consoleManager.Start();
+        }
     }
 }

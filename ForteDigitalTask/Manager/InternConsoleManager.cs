@@ -16,6 +16,7 @@ namespace ForteDigitalTask.Manager
         }
         public void Start()
         {
+            Console.Write("interns.exe ");
             string arg = Console.ReadLine();
             string[] args = arg.Split(' ');
             if (arg == null)
@@ -75,6 +76,7 @@ namespace ForteDigitalTask.Manager
                     Console.WriteLine("Error: Invalid command.");
                     break;
             }
+            Console.WriteLine();
         }
     }
 }
