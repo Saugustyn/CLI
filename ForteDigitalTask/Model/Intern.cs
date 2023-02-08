@@ -18,18 +18,18 @@ namespace ForteDigitalTask.Model
         public DateTime internshipEnd { get; set; }
         public string internshipEndString { get; set; }
 
-        public static Intern CreateFromArray(string[] values)
+        public Intern()
         {
-           return new Intern
-            {
-                id = int.Parse(values[0]),
-                age = int.Parse(values[1]),
-                name = values[2],
-                email = values[3],
-                internshipStart = DateTime.ParseExact(values[4], "yyyy-MM-ddTHH:mm+00Z", CultureInfo.InvariantCulture),
-                internshipEnd = DateTime.ParseExact(values[5], "yyyy-MM-ddTHH:mm+00Z", CultureInfo.InvariantCulture)
-            };
-            
+
+        }
+        public Intern (string[] values)
+        {
+            id = int.Parse(values[0]);
+            age = int.Parse(values[1]);
+            name = values[2];
+            email = values[3];
+            internshipStart = DateTime.ParseExact(values[4], "yyyy-MM-ddTHH:mm+00Z", CultureInfo.InvariantCulture);
+            internshipEnd = DateTime.ParseExact(values[5], "yyyy-MM-ddTHH:mm+00Z", CultureInfo.InvariantCulture);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace ForteDigitalTask.Manager
         {
             List<Intern> interns = parser.ParseInternsFromFile(url);
             int count = 0;
+
             if (ageThreshold.HasValue)
             {
                 if (greaterThan)
@@ -43,8 +44,13 @@ namespace ForteDigitalTask.Manager
         public int MaxAge(string url)
         {
             List<Intern> interns = parser.ParseInternsFromFile(url);
-            int maxAge = interns.Max(i => i.age);
-            return maxAge;
+
+            if(interns.Count != 0)
+            {
+                int maxAge = interns.Max(i => i.age);
+                return maxAge;
+            }
+            return 0;
         }
     }
 }

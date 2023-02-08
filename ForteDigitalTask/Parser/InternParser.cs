@@ -12,24 +12,23 @@ namespace ForteDigitalTask.Parser
 {
     public class InternParser : InternParserInterface
     {
-        private WebClient client;
+        private WebClient _client;
 
         public InternParser(WebClient client)
         {
-            this.client = client;
+            _client = client;
         }
         public List<Intern> ParseInternsFromFile(string url)
         {
             try
             {
-                string fileContent = client.DownloadString(url);
-                string contentType = client.ResponseHeaders["Content-Type"];
+                string fileContent = _client.DownloadString(url);
+                string contentType = _client.ResponseHeaders["Content-Type"];
 
                 if (contentType == "application/zip")
                 {
                     return ParseInternsFromZip(url);
                 }
-
                 if (contentType == "application/json; charset=utf-8")
                 {
                     return ParseInternsFromJson(fileContent);
@@ -38,12 +37,11 @@ namespace ForteDigitalTask.Parser
                 {
                     return ParseInternsFromCsv(fileContent);
                 }
-                Console.WriteLine("Error: Unsupported file format.");
                 return new List<Intern>();
             }
             catch (WebException)
             {
-                Console.WriteLine("Error: Cannot get file.");
+               Console.WriteLine("Error: Cannot get file.");
                 return new List<Intern>();
             }
             catch (Exception)
@@ -88,8 +86,9 @@ namespace ForteDigitalTask.Parser
         {
             try 
             { 
-                List<Intern> interns = new List<Intern>();
-                byte[] archiveBytes = client.DownloadData(url);
+                List<Intern> listOfInterns = new List<Intern>();
+                byte[] archiveBytes = _client.DownloadData(url);
+
                 using (MemoryStream stream = new MemoryStream(archiveBytes, false))
                 {
                     using (var archive = SharpCompress.Archives.Zip.ZipArchive.Open(stream))
@@ -103,14 +102,14 @@ namespace ForteDigitalTask.Parser
                                 while ((line = reader.ReadLine()) != null)
                                 {
                                     string[] values = line.Split(',');
-                                    Intern intern = Intern.CreateFromArray(values);
-                                    interns.Add(intern);
+                                    Intern intern = new Intern(values);
+                                    listOfInterns.Add(intern);
                                 }
                             }
                         }
                     }
                 }
-                return interns;
+                return listOfInterns;
             }
             catch (Exception)
             {
@@ -123,18 +122,19 @@ namespace ForteDigitalTask.Parser
         {
             try 
             { 
-                List<Intern> interns = new List<Intern>();
+                List<Intern> listOfInterns = new List<Intern>();
+
                 using (StringReader reader = new StringReader(fileContent))
                 {
                     string line = reader.ReadLine();
                     while ((line = reader.ReadLine()) != null)
                     {
                         string[] values = line.Split(',');
-                        Intern intern = Intern.CreateFromArray(values);
-                        interns.Add(intern);
+                        Intern intern = new Intern(values);
+                        listOfInterns.Add(intern);
                     }
                 }
-                return interns;
+                return listOfInterns;
             }
             catch (Exception)
             {

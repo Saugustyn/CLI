@@ -8,26 +8,28 @@ namespace ForteDigitalTask.Manager
 {
     public class InternConsoleManager
     {
-        private InternManagerInterface internManager;
+        private InternManagerInterface _internManager;
 
         public InternConsoleManager(InternManagerInterface internManager)
         {
-            this.internManager = internManager;
+            _internManager = internManager;
         }
         public void Start()
         {
             Console.Write("interns.exe ");
             string arg = Console.ReadLine();
             string[] args = arg.Split(' ');
+
             if (arg == null)
             {
                 Console.WriteLine("Error: No input entered.");
+                Console.WriteLine();
                 return;
             }
-
             if (args.Length < 2)
             {
                 Console.WriteLine("Error: Invalid command.");
+                Console.WriteLine();
                 return;
             }
 
@@ -41,6 +43,8 @@ namespace ForteDigitalTask.Manager
                 if (args.Length > 3)
                 {
                     string ageOption = args[2];
+                    ageThreshold = int.Parse(args[3]);
+
                     if (ageOption == "--age-gt")
                     {
                         greaterThan = true;
@@ -52,9 +56,9 @@ namespace ForteDigitalTask.Manager
                     else
                     {
                         Console.WriteLine("Error: Invalid command.");
+                        Console.WriteLine();
                         return;
                     }
-                    ageThreshold = int.Parse(args[3]);
                 }
             }
 
@@ -62,18 +66,19 @@ namespace ForteDigitalTask.Manager
             {
                 case "count":
                     {
-                        int count = internManager.CountInterns(url, ageThreshold, greaterThan);
+                        int count = _internManager.CountInterns(url, ageThreshold, greaterThan);
                         Console.WriteLine(count);
                     }
                     break;
                 case "max-age":
                     {
-                        int maxAge = internManager.MaxAge(url);
+                        int maxAge = _internManager.MaxAge(url);
                         Console.WriteLine(maxAge);
                     }
                     break;
                 default:
                     Console.WriteLine("Error: Invalid command.");
+                    Console.WriteLine();
                     break;
             }
             Console.WriteLine();
